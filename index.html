@@ -78,7 +78,6 @@
             overflow: hidden;
             border: 10px solid #00f7ff;
             box-shadow: 0 0 30px #00f7ff, inset 0 0 20px rgba(0, 247, 255, 0.5);
-            transition: transform 5s cubic-bezier(0.17, 0.67, 0.21, 0.99);
         }
         
         .wheel-section {
@@ -131,13 +130,6 @@
             color: #00f7ff;
             font-weight: bold;
             font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .wheel-center:hover {
-            transform: translate(-50%, -50%) scale(1.1);
-            box-shadow: 0 0 30px #00f7ff;
         }
         
         .wheel-icon {
@@ -287,6 +279,16 @@
         .kolers-section {
             background: linear-gradient(45deg, #9900ff, #5500aa);
         }
+
+        /* Countdown styles */
+        .countdown {
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+            color: #00f7ff;
+            text-shadow: 0 0 10px #00f7ff;
+        }
     </style>
 </head>
 <body>
@@ -418,24 +420,23 @@
         <div class="wheel-center">
           <div class="text-center">
             <div class="wheel-icon"><i class="fas fa-redo"></i></div>
-            <div>SPIN</div>
           </div>
         </div>
       </div>
       
       <div class="text-center lg:text-left max-w-md">
-        <h3 class="text-2xl font-bold mb-4">Spin & Win Epic Rewards</h3>
-        <p class="mb-6 text-gray-300">Every 24 hours, you can spin the Ponzi Wheel for a chance to win exclusive rewards. Must hold $PonziX for 7+ days to claim prizes.</p>
+        <h3 class="text-2xl font-bold mb-4">Ponzi Wheel Rewards</h3>
+        <p class="mb-6 text-gray-300">The Ponzi Wheel displays potential rewards available in the ecosystem. Must hold $PonziX for 7+ days to be eligible for rewards.</p>
         
         <div class="mb-6">
-          <p class="text-sm opacity-80">Next spin available in:</p>
-          <p class="text-xl font-bold" id="spinTimer">23:59:59</p>
+          <p class="text-sm opacity-80">Coming soon</p>
         </div>
-        
-        <button id="spinButton" class="px-8 py-4 rounded-full font-bold neon-button bg-purple-600 hover:bg-purple-700">
-          <i class="fas fa-redo mr-2"></i> Spin the Wheel
-        </button>
       </div>
+    </div>
+
+    <!-- Countdown timer -->
+    <div class="countdown" id="countdown">
+      Next spin in: 15:00
     </div>
   </div>
 </section>
@@ -733,7 +734,7 @@
     });
   }
   
-  // Ponzi Wheel with new prizes
+  // Ponzi Wheel with new prizes (static version)
   function initPonziWheel() {
     const wheel = document.getElementById('wheel');
     const prizes = [
@@ -772,7 +773,7 @@
       }
     ];
     
-    // Create wheel sections
+    // Create static wheel sections
     prizes.forEach((prize, i) => {
       const section = document.createElement('div');
       section.className = `wheel-section ${prize.class}`;
@@ -790,66 +791,37 @@
       wheel.appendChild(section);
     });
     
-    // Spin button functionality
-    document.getElementById('spinButton').addEventListener('click', function() {
-      if (this.disabled) return;
-      
-      this.disabled = true;
-      const spinDegrees = 1800 + Math.floor(Math.random() * 360); // 5 full rotations + random
-      wheel.style.transform = `rotate(${spinDegrees}deg)`;
-      
-      setTimeout(() => {
-        const winningIndex = Math.floor((((spinDegrees % 360) - 22.5) + 360) % 360 / 45);
-        const prize = prizes[winningIndex];
-        
-        if (prize.text.includes("JACKPOT")) {
-          showJackpot();
-        } else {
-          // Create a notification for non-jackpot wins
-          const notification = document.createElement('div');
-          notification.className = 'fixed top-4 right-4 bg-gray-900 text-white px-6 py-4 rounded-lg shadow-lg border border-purple-500 z=50';
-          notification.innerHTML = `
-            <div class="flex items-center">
-              <div>
-                <h4 class="font-bold">You won!</h4>
-                <p>${prize.text.replace(/<br>/g, ' ')}</p>
-              </div>
-            </div>
-          `;
-          document.body.appendChild(notification);
-          
-          // Remove after 5 seconds
-          setTimeout(() => {
-            notification.style.opacity = '0';
-            notification.style.transition = 'opacity 0.5s';
-            setTimeout(() => notification.remove(), 500);
-          }, 5000);
-        }
-        
-        // Reset timer to 25 minutes (1500 seconds)
-        let timeLeft = 1500;
-        const timer = document.getElementById('spinTimer');
-        
-        const countdown = setInterval(() => {
-          timeLeft--;
-          const hours = Math.floor(timeLeft / 3600);
-          const minutes = Math.floor((timeLeft % 3600) / 60);
-          const seconds = timeLeft % 60;
-          timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-          
-          if (timeLeft <= 0) {
-            clearInterval(countdown);
-            this.disabled = false;
-            timer.textContent = "Ready to spin!";
-          }
-        }, 1000);
-      }, 5000);
-    });
+    // Remove click event from wheel center
+    document.querySelector('.wheel-center').style.cursor = 'default';
+  }
+  
+  // Countdown timer
+  function startCountdown() {
+    let minutes = 15;
+    let seconds = 0;
     
-    // Also make the center button spin the wheel
-    document.querySelector('.wheel-center').addEventListener('click', function() {
-      document.getElementById('spinButton').click();
-    });
+    const countdownElement = document.getElementById('countdown');
+    
+    const timer = setInterval(() => {
+      if (seconds === 0) {
+        if (minutes === 0) {
+          clearInterval(timer);
+          countdownElement.textContent = "Next spin in: 15:00";
+          minutes = 15;
+          seconds = 0;
+          startCountdown(); // Restart the countdown
+          return;
+        }
+        minutes--;
+        seconds = 59;
+      } else {
+        seconds--;
+      }
+      
+      const formattedMinutes = minutes.toString().padStart(2, '0');
+      const formattedSeconds = seconds.toString().padStart(2, '0');
+      countdownElement.textContent = `Next spin in: ${formattedMinutes}:${formattedSeconds}`;
+    }, 1000);
   }
   
   // Wallet connection
@@ -876,23 +848,7 @@
     populateLeaderboard();
     initPonziWheel();
     initWalletConnection();
-    
-    // Update spin timer initially
-    const timer = document.getElementById('spinTimer');
-    let timeLeft = Math.floor(Math.random() * 1500); // Random time up to 25 minutes
-    
-    const countdown = setInterval(() => {
-      timeLeft--;
-      const hours = Math.floor(timeLeft / 3600);
-      const minutes = Math.floor((timeLeft % 3600) / 60);
-      const seconds = timeLeft % 60;
-      timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-      
-      if (timeLeft <= 0) {
-        clearInterval(countdown);
-        timer.textContent = "Ready to spin!";
-      }
-    }, 1000);
+    startCountdown();
   });
 </script>
 </body>
