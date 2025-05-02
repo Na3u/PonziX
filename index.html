@@ -1,523 +1,523 @@
-!DOCTYPE html
-html lang=en
-head
-    meta charset=UTF-8
-    meta name=viewport content=width=device-width, initial-scale=1.0
-    titlePonziX - Don't be last. Be legendary.title
-    script src=httpscdn.tailwindcss.comscript
-    link rel=stylesheet href=httpscdnjs.cloudflare.comajaxlibsfont-awesome6.4.0cssall.min.css
-    script src=httpscdn.jsdelivr.netnpmchart.jsscript
-    script src=httpscdn.jsdelivr.netnpmwalletconnect@1.7.1distumdindex.min.jsscript
-    script src=httpscdn.jsdelivr.netnpm@walletconnectweb3-provider@1.7.8distumdindex.min.jsscript
-    style
-        @import url('httpsfonts.googleapis.comcss2family=Orbitronwght@400;500;700;900&family=Robotowght@400;500;700&display=swap');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PonziX - Don't be last. Be legendary.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/walletconnect@1.7.1/dist/umd/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.7.8/dist/umd/index.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@400;500;700&display=swap');
         
         body {
-            font-family 'Orbitron', sans-serif;
-            background-color #0a0a1a;
-            color #00f7ff;
-            overflow-x hidden;
+            font-family: 'Orbitron', sans-serif;
+            background-color: #0a0a1a;
+            color: #00f7ff;
+            overflow-x: hidden;
         }
         
         .matrix-bg {
-            position fixed;
-            top 0;
-            left 0;
-            width 100%;
-            height 100%;
-            z-index -1;
-            background radial-gradient(circle at center, #0a0a1a 0%, #000 100%);
-            overflow hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #0a0a1a 0%, #000 100%);
+            overflow: hidden;
         }
         
         .matrix-code {
-            position absolute;
-            color rgba(0, 247, 255, 0.3);
-            font-size 14px;
-            animation fall linear infinite;
+            position: absolute;
+            color: rgba(0, 247, 255, 0.3);
+            font-size: 14px;
+            animation: fall linear infinite;
         }
         
         @keyframes fall {
             to {
-                transform translateY(100vh);
+                transform: translateY(100vh);
             }
         }
         
         .neon-text {
-            text-shadow 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 15px #00f7ff, 0 0 20px #0073e6;
+            text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 15px #00f7ff, 0 0 20px #0073e6;
         }
         
         .neon-box {
-            border 1px solid #00f7ff;
-            box-shadow 0 0 10px #00f7ff, 0 0 20px rgba(0, 247, 255, 0.5), inset 0 0 10px #00f7ff;
+            border: 1px solid #00f7ff;
+            box-shadow: 0 0 10px #00f7ff, 0 0 20px rgba(0, 247, 255, 0.5), inset 0 0 10px #00f7ff;
         }
         
         .neon-button {
-            background linear-gradient(45deg, #0073e6, #00f7ff);
-            box-shadow 0 0 10px #00f7ff, 0 0 20px rgba(0, 247, 255, 0.5);
-            transition all 0.3s ease;
+            background: linear-gradient(45deg, #0073e6, #00f7ff);
+            box-shadow: 0 0 10px #00f7ff, 0 0 20px rgba(0, 247, 255, 0.5);
+            transition: all 0.3s ease;
         }
         
-        .neon-buttonhover {
-            transform scale(1.05);
-            box-shadow 0 0 15px #00f7ff, 0 0 30px rgba(0, 247, 255, 0.7);
+        .neon-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #00f7ff, 0 0 30px rgba(0, 247, 255, 0.7);
         }
         
         .wheel-container {
-            position relative;
-            width 450px;
-            height 450px;
-            margin 0 auto;
+            position: relative;
+            width: 450px;
+            height: 450px;
+            margin: 0 auto;
         }
         
         .wheel {
-            width 100%;
-            height 100%;
-            border-radius 50%;
-            position relative;
-            overflow hidden;
-            border 10px solid #00f7ff;
-            box-shadow 0 0 30px #00f7ff, inset 0 0 20px rgba(0, 247, 255, 0.5);
-            transition transform 5s cubic-bezier(0.17, 0.67, 0.21, 0.99);
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            border: 10px solid #00f7ff;
+            box-shadow: 0 0 30px #00f7ff, inset 0 0 20px rgba(0, 247, 255, 0.5);
+            transition: transform 5s cubic-bezier(0.17, 0.67, 0.21, 0.99);
         }
         
         .wheel-section {
-            position absolute;
-            width 50%;
-            height 50%;
-            transform-origin 100% 100%;
-            left 0;
-            top 0;
-            display flex;
-            align-items center;
-            justify-content center;
-            font-weight bold;
-            color 0a0a1a;
-            font-size 18px;
-            text-align center;
-            text-shadow 1px 1px 1px rgba(0,0,0,0.3);
-            clip-path polygon(0 0, 100% 100%, 0 100%);
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: 100% 100%;
+            left: 0;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: 0a0a1a;
+            font-size: 18px;
+            text-align: center;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+            clip-path: polygon(0 0, 100% 100%, 0 100%);
         }
         
         .wheel-pointer {
-            position absolute;
-            top -40px;
-            left 50%;
-            transform translateX(-50%);
-            width 0;
-            height 0;
-            border-left 30px solid transparent;
-            border-right 30px solid transparent;
-            border-top 60px solid #ff00e6;
-            z-index 10;
-            filter drop-shadow(0 0 15px #ff00e6);
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+            border-top: 60px solid #ff00e6;
+            z-index: 10;
+            filter: drop-shadow(0 0 15px #ff00e6);
         }
         
         .wheel-center {
-            position absolute;
-            width 80px;
-            height 80px;
-            background #0a0a1a;
-            border-radius 50%;
-            top 50%;
-            left 50%;
-            transform translate(-50%, -50%);
-            border 6px solid #00f7ff;
-            box-shadow 0 0 20px #00f7ff;
-            z-index 5;
-            display flex;
-            align-items center;
-            justify-content center;
-            color #00f7ff;
-            font-weight bold;
-            font-size 1.2rem;
-            cursor pointer;
-            transition all 0.3s ease;
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: #0a0a1a;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 6px solid #00f7ff;
+            box-shadow: 0 0 20px #00f7ff;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00f7ff;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
         
-        .wheel-centerhover {
-            transform translate(-50%, -50%) scale(1.1);
-            box-shadow 0 0 30px #00f7ff;
+        .wheel-center:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 0 0 30px #00f7ff;
         }
         
         .wheel-icon {
-            font-size 24px;
-            margin-bottom 5px;
+            font-size: 24px;
+            margin-bottom: 5px;
         }
         
         .tokenomics-chart {
-            width 300px;
-            height 300px;
-            margin 0 auto;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
         }
         
         .leaderboard-entry {
-            animation pulse 2s infinite;
+            animation: pulse 2s infinite;
         }
         
         @keyframes pulse {
-            0% { box-shadow 0 0 5px #00f7ff; }
-            50% { box-shadow 0 0 20px #00f7ff; }
-            100% { box-shadow 0 0 5px #00f7ff; }
+            0% { box-shadow: 0 0 5px #00f7ff; }
+            50% { box-shadow: 0 0 20px #00f7ff; }
+            100% { box-shadow: 0 0 5px #00f7ff; }
         }
         
         .rank-star {
-            color gold;
-            text-shadow 0 0 5px gold;
+            color: gold;
+            text-shadow: 0 0 5px gold;
         }
         
         .galaxy-bg {
-            background url('httpsimages.unsplash.comphoto-1534796636912-3b95b3ab5986q=80&w=1471&auto=format&fit=crop') centercover no-repeat;
-            background-attachment fixed;
-            position relative;
+            background: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1471&auto=format&fit=crop') center/cover no-repeat;
+            background-attachment: fixed;
+            position: relative;
         }
         
-        .galaxy-bgbefore {
-            content '';
-            position absolute;
-            top 0;
-            left 0;
-            width 100%;
-            height 100%;
-            background rgba(0, 10, 20, 0.7);
+        .galaxy-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 10, 20, 0.7);
         }
         
-         Jackpot animation 
+        /* Jackpot animation */
         .jackpot-animation {
-            position fixed;
-            top 0;
-            left 0;
-            width 100%;
-            height 100%;
-            background rgba(0, 0, 0, 0.9);
-            display flex;
-            flex-direction column;
-            align-items center;
-            justify-content center;
-            z-index 1000;
-            opacity 0;
-            pointer-events none;
-            transition opacity 0.5s;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
         }
         
         .jackpot-text {
-            font-size 5rem;
-            font-weight bold;
-            background linear-gradient(45deg, #ff00e6, #ff9900, gold, #ff00e6);
-            -webkit-background-clip text;
-            background-clip text;
-            color transparent;
-            background-size 400% 400%;
-            animation gradient 3s ease infinite, pulse 0.5s infinite alternate;
-            text-shadow 0 0 20px rgba(255, 0, 230, 0.7);
-            margin-bottom 2rem;
+            font-size: 5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff00e6, #ff9900, gold, #ff00e6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 400% 400%;
+            animation: gradient 3s ease infinite, pulse 0.5s infinite alternate;
+            text-shadow: 0 0 20px rgba(255, 0, 230, 0.7);
+            margin-bottom: 2rem;
         }
         
         .jackpot-subtext {
-            font-size 2rem;
-            color #00f7ff;
-            margin-bottom 3rem;
+            font-size: 2rem;
+            color: #00f7ff;
+            margin-bottom: 3rem;
         }
         
         .confetti {
-            position absolute;
-            width 10px;
-            height 10px;
-            background-color #f00;
-            opacity 0;
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
         }
         
         @keyframes gradient {
-            0% { background-position 0% 50%; }
-            50% { background-position 100% 50%; }
-            100% { background-position 0% 50%; }
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         
         .jackpot-coin {
-            position absolute;
-            width 30px;
-            height 30px;
-            background radial-gradient(circle at center, gold 40%, #ff9900 100%);
-            border-radius 50%;
-            box-shadow 0 0 15px gold;
-            opacity 0;
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle at center, gold 40%, #ff9900 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 15px gold;
+            opacity: 0;
         }
         
-         Updated wheel styles 
+        /* Updated wheel styles */
         .prize-label {
-            position absolute;
-            width 100%;
-            height 100%;
-            display flex;
-            flex-direction column;
-            align-items center;
-            justify-content center;
-            text-align center;
-            font-weight 900;
-            line-height 1.2;
-            font-family 'Orbitron', sans-serif;
-            font-size 18px;
-            transform translate(0, 60px) rotate(0deg) !important;
-            text-shadow 0 0 3px rgba(0,0,0,0.5);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: 900;
+            line-height: 1.2;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            transform: translate(0, 60px) rotate(0deg) !important;
+            text-shadow: 0 0 3px rgba(0,0,0,0.5);
         }
         
         .prize-text {
-            text-shadow 0 0 5px rgba(255,255,255,0.7);
-            font-weight 900;
-            transform rotate(0deg) !important;
-            font-style normal !important;
+            text-shadow: 0 0 5px rgba(255,255,255,0.7);
+            font-weight: 900;
+            transform: rotate(0deg) !important;
+            font-style: normal !important;
         }
         
         .jackpot-section {
-            background linear-gradient(45deg, gold, #ff9900);
+            background: linear-gradient(45deg, gold, #ff9900);
         }
         
         .boost-section {
-            background linear-gradient(45deg, #00f7ff, #0073e6);
+            background: linear-gradient(45deg, #00f7ff, #0073e6);
         }
         
         .nitro-section {
-            background linear-gradient(45deg, #00ff88, #00aa55);
+            background: linear-gradient(45deg, #00ff88, #00aa55);
         }
         
         .lottery-section {
-            background linear-gradient(45deg, #ff9900, #ff5500);
+            background: linear-gradient(45deg, #ff9900, #ff5500);
         }
         
         .kolers-section {
-            background linear-gradient(45deg, #9900ff, #5500aa);
+            background: linear-gradient(45deg, #9900ff, #5500aa);
         }
-    style
-head
-body
-    !-- Matrix Background Animation --
-    div class=matrix-bg id=matrixBgdiv
+    </style>
+</head>
+<body>
+    <!-- Matrix Background Animation -->
+    <div class="matrix-bg" id="matrixBg"></div>
     
-    !-- Jackpot Animation (hidden by default) --
-    div class=jackpot-animation id=jackpotAnimation
-        div class=jackpot-textJACKPOT!div
-        div class=jackpot-subtextYou won the ultimate prize!div
-        button id=closeJackpot class=px-8 py-4 rounded-full font-bold neon-button bg-purple-600 hoverbg-purple-700 text-xl
+    <!-- Jackpot Animation (hidden by default) -->
+    <div class="jackpot-animation" id="jackpotAnimation">
+        <div class="jackpot-text">JACKPOT!</div>
+        <div class="jackpot-subtext">You won the ultimate prize!</div>
+        <button id="closeJackpot" class="px-8 py-4 rounded-full font-bold neon-button bg-purple-600 hover:bg-purple-700 text-xl">
             Claim Your Reward
-        button
-    div
+        </button>
+    </div>
     
-    !-- Hero Section --
-    section class=min-h-screen flex items-center justify-center galaxy-bg
-        div class=container mx-auto px-4 relative z-10
-            div class=text-center
-                h1 class=text-5xl mdtext-7xl font-bold mb-6 neon-textPonziX Rewardsh1
-                p class=text-2xl mdtext-3xl mb-10 neon-textDon't be last. Be legendary.p
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center galaxy-bg">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 neon-text">PonziX Rewards</h1>
+                <p class="text-2xl md:text-3xl mb-10 neon-text">Don't be last. Be legendary.</p>
                 
-                div class=max-w-md mx-auto bg-black bg-opacity-70 p-6 rounded-lg neon-box mb-10
-                    div class=flex justify-between items-center mb-4
-                        div class=text-left
-                            p class=text-sm opacity-80Current Pricep
-                            p class=text-xl font-bold$0.00span id=currentPrice042spanp
-                        div
-                        div class=text-right
-                            p class=text-sm opacity-80Your Balancep
-                            p class=text-xl font-boldspan id=userBalance0span $PonziXp
-                        div
-                    div
+                <div class="max-w-md mx-auto bg-black bg-opacity-70 p-6 rounded-lg neon-box mb-10">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="text-left">
+                            <p class="text-sm opacity-80">Current Price</p>
+                            <p class="text-xl font-bold">$0.00<span id="currentPrice">042</span></p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm opacity-80">Your Balance</p>
+                            <p class="text-xl font-bold"><span id="userBalance">0</span> $PonziX</p>
+                        </div>
+                    </div>
                     
-                    div class=h-40 mb-6
-        canvas id=priceChartcanvas
-      div
+                    <div class="h-40 mb-6">
+        <canvas id="priceChart"></canvas>
+      </div>
       
-      div class=flex flex-col smflex-row justify-center gap-4
-        button id=connectWallet class=px-6 py-3 rounded-full font-bold neon-button
-          i class=fas fa-wallet mr-2i Connect Wallet
-        button
-        button class=px-6 py-3 rounded-full font-bold neon-button bg-purple-600 hoverbg-purple-700
-          i class=fas fa-coins mr-2i Buy $PonziX
-        button
-      div
-    div
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <button id="connectWallet" class="px-6 py-3 rounded-full font-bold neon-button">
+          <i class="fas fa-wallet mr-2"></i> Connect Wallet
+        </button>
+        <button class="px-6 py-3 rounded-full font-bold neon-button bg-purple-600 hover:bg-purple-700">
+          <i class="fas fa-coins mr-2"></i> Buy $PonziX
+        </button>
+      </div>
+    </div>
     
-    div class=animate-bounce mt-10
-      i class=fas fa-chevron-down text-3xl opacity-50i
-    div
-  div
-div
-section
+    <div class="animate-bounce mt-10">
+      <i class="fas fa-chevron-down text-3xl opacity-50"></i>
+    </div>
+  </div>
+</div>
+</section>
 
-!-- How It Works Section --
-section class=py-20 bg-black bg-opacity-80
-  div class=container mx-auto px-4
-    h2 class=text-3xl mdtext-4xl font-bold text-center mb-16 neon-textHow It Worksh2
+<!-- How It Works Section -->
+<section class="py-20 bg-black bg-opacity-80">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 neon-text">How It Works</h2>
     
-    div class=grid grid-cols-1 mdgrid-cols-2 lggrid-cols-4 gap-8
-      !-- Step 1 --
-      div class=bg-gray-900 bg-opacity-70 p-6 rounded-lg neon-box hoverscale-105 transition-transform
-        div class=text-5xl text-center mb-4 text-purple-4001div
-        h3 class=text-xl font-bold mb-3 text-centerBuy Earlyh3
-        p class=text-gray-300Get in before everyone else. The earlier you join, the higher your potential rewards.p
-      div
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <!-- Step 1 -->
+      <div class="bg-gray-900 bg-opacity-70 p-6 rounded-lg neon-box hover:scale-105 transition-transform">
+        <div class="text-5xl text-center mb-4 text-purple-400">1</div>
+        <h3 class="text-xl font-bold mb-3 text-center">Buy Early</h3>
+        <p class="text-gray-300">Get in before everyone else. The earlier you join, the higher your potential rewards.</p>
+      </div>
       
-      !-- Step 2 --
-      div class=bg-gray-900 bg-opacity-70 p=6 rounded-lg neon-box hoverscale-105 transition-transform
-        div class=text-5xl text-center mb-4 text-blue-4002div
-        h3 class=text-xl font-bold mb-3 text-centerEarn Feesh3
-        p class=text-gray-300Receive a portion of the 10% transaction fees from all subsequent buys.p
-      div
+      <!-- Step 2 -->
+      <div class="bg-gray-900 bg-opacity-70 p=6 rounded-lg neon-box hover:scale-105 transition-transform">
+        <div class="text-5xl text-center mb-4 text-blue-400">2</div>
+        <h3 class="text-xl font-bold mb-3 text-center">Earn Fees</h3>
+        <p class="text-gray-300">Receive a portion of the 10% transaction fees from all subsequent buys.</p>
+      </div>
       
-      !-- Step 3 --
-      div class=bg-gray-900 bg-opacity-70 p-6 rounded-lg neon-box hoverscale-105 transition-transform
-        div class=text-5xl text-center mb-4 text-green-4003div
-        h3 class=text-xl font-bold mb-3 text-centerAccumulate Pointsh3
-        p class=text-gray-300The longer you hold, the more Ponzi Points you earn, increasing your share.p
-      div
+      <!-- Step 3 -->
+      <div class="bg-gray-900 bg-opacity-70 p-6 rounded-lg neon-box hover:scale-105 transition-transform">
+        <div class="text-5xl text-center mb-4 text-green-400">3</div>
+        <h3 class="text-xl font-bold mb-3 text-center">Accumulate Points</h3>
+        <p class="text-gray-300">The longer you hold, the more Ponzi Points you earn, increasing your share.</p>
+      </div>
       
-      !-- Step 4 --
-      div class=bg-gray-900 bg-opacity-70 p-6 rounded-lg neon-box hoverscale-105 transition-transform
-        div class=text-5xl text-center mb-4 text-red-4004div
-        h3 class=text-xl font-bold mb-3 text-centerHold or Reseth3
-        p class=text-gray-300Sell your tokens and lose your rank. Hold to maintain your position.p
-      div
-    div
-  div
-section
+      <!-- Step 4 -->
+      <div class="bg-gray-900 bg-opacity-70 p-6 rounded-lg neon-box hover:scale-105 transition-transform">
+        <div class="text-5xl text-center mb-4 text-red-400">4</div>
+        <h3 class="text-xl font-bold mb-3 text-center">Hold or Reset</h3>
+        <p class="text-gray-300">Sell your tokens and lose your rank. Hold to maintain your position.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-!-- Leaderboard Section --
-section class=py-20 bg-gray-900 bg-opacity-70
-  div class=container mx-auto px-4
-    h2 class=text-3xl mdtext-4xl font-bold text-center mb-10 neon-textLive Leaderboardh2
+<!-- Leaderboard Section -->
+<section class="py-20 bg-gray-900 bg-opacity-70">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-10 neon-text">Live Leaderboard</h2>
     
-    div class=max-w-4xl mx-auto bg-black bg-opacity-70 rounded-lg neon-box overflow-hidden
-      div class=overflow-x-auto
-        table class=w-full
-          thead
-            tr class=border-b border-blue-500
-              th class=px-6 py-4 text-leftRankth
-              th class=px-6 py-4 text-leftAddressth
-              th class=px-6 py-4 text-leftEarningsth
-              th class=px-6 py-4 text-leftLevelth
-            tr
-          thead
-          tbody id=leaderboardBody
-            !-- Leaderboard entries will be added here by JavaScript --
-          tbody
-        table
-      div
-    div
-  div
-section
+    <div class="max-w-4xl mx-auto bg-black bg-opacity-70 rounded-lg neon-box overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-blue-500">
+              <th class="px-6 py-4 text-left">Rank</th>
+              <th class="px-6 py-4 text-left">Address</th>
+              <th class="px-6 py-4 text-left">Earnings</th>
+              <th class="px-6 py-4 text-left">Level</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboardBody">
+            <!-- Leaderboard entries will be added here by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
 
-!-- Ponzi Wheel Section --
-section class=py-20 bg-black bg-opacity-80
-  div class=container mx-auto px-4
-    h2 class=text-3xl mdtext-4xl font-bold text-center mb-10 neon-textPonzi Wheelh2
+<!-- Ponzi Wheel Section -->
+<section class="py-20 bg-black bg-opacity-80">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-10 neon-text">Ponzi Wheel</h2>
     
-    div class=flex flex-col lgflex-row items-center justify-center gap-12
-      div class=wheel-container
-        div class=wheel-pointerdiv
-        div class=wheel id=wheel
-          !-- Wheel sections will be added here by JavaScript --
-        div
-        div class=wheel-center
-          div class=text-center
-            div class=wheel-iconi class=fas fa-redoidiv
-            divSPINdiv
-          div
-        div
-      div
+    <div class="flex flex-col lg:flex-row items-center justify-center gap-12">
+      <div class="wheel-container">
+        <div class="wheel-pointer"></div>
+        <div class="wheel" id="wheel">
+          <!-- Wheel sections will be added here by JavaScript -->
+        </div>
+        <div class="wheel-center">
+          <div class="text-center">
+            <div class="wheel-icon"><i class="fas fa-redo"></i></div>
+            <div>SPIN</div>
+          </div>
+        </div>
+      </div>
       
-      div class=text-center lgtext-left max-w-md
-        h3 class=text-2xl font-bold mb-4Spin & Win Epic Rewardsh3
-        p class=mb-6 text-gray-300Every 24 hours, you can spin the Ponzi Wheel for a chance to win exclusive rewards. Must hold $PonziX for 7+ days to claim prizes.p
+      <div class="text-center lg:text-left max-w-md">
+        <h3 class="text-2xl font-bold mb-4">Spin & Win Epic Rewards</h3>
+        <p class="mb-6 text-gray-300">Every 24 hours, you can spin the Ponzi Wheel for a chance to win exclusive rewards. Must hold $PonziX for 7+ days to claim prizes.</p>
         
-        div class=mb-6
-          p class=text-sm opacity-80Next spin available inp
-          p class=text-xl font-bold id=spinTimer235959p
-        div
+        <div class="mb-6">
+          <p class="text-sm opacity-80">Next spin available in:</p>
+          <p class="text-xl font-bold" id="spinTimer">23:59:59</p>
+        </div>
         
-        button id=spinButton class=px-8 py-4 rounded-full font-bold neon-button bg-purple-600 hoverbg-purple-700
-          i class=fas fa-redo mr-2i Spin the Wheel
-        button
-      div
-    div
-  div
-section
+        <button id="spinButton" class="px-8 py-4 rounded-full font-bold neon-button bg-purple-600 hover:bg-purple-700">
+          <i class="fas fa-redo mr-2"></i> Spin the Wheel
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
 
-!-- Tokenomics Section --
-section class=py-20 bg-gray-900 bg-opacity-70
-  div class=container mx-auto px-4
-    h2 class=text-3xl mdtext-4xl font-bold text-center mb-10 neon-textTokenomicsh2
+<!-- Tokenomics Section -->
+<section class="py-20 bg-gray-900 bg-opacity-70">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-10 neon-text">Tokenomics</h2>
     
-    div class=flex flex-col lgflex-row items-center justify-center gap-12
-      div class=tokenomics-chart
-        canvas id=tokenomicsChartcanvas
-      div
+    <div class="flex flex-col lg:flex-row items-center justify-center gap-12">
+      <div class="tokenomics-chart">
+        <canvas id="tokenomicsChart"></canvas>
+      </div>
       
-      div class=max-w-md
-        div class=mb-6
-          h3 class=text-xl font-bold mb-210% Transaction Taxh3
-          ul class=list-disc pl-5 text-gray-300
-            li class=mb-290% distributed to top holders based on rankli
-            li class=mb-210% to buyback poolli
-          ul
-        div
+      <div class="max-w-md">
+        <div class="mb-6">
+          <h3 class="text-xl font-bold mb-2">10% Transaction Tax</h3>
+          <ul class="list-disc pl-5 text-gray-300">
+            <li class="mb-2">90% distributed to top holders based on rank</li>
+            <li class="mb-2">10% to buyback pool</li>
+          </ul>
+        </div>
         
-        div
-          h3 class=text-xl font-bold mb-2Key Mechanicsh3
-          ul class=list-disc pl-5 text-gray-300
-            li class=mb-2Holding increases your rankli
-            li class=mb-2Selling resets your rank to zeroli
-            li class=mb-2Early adopters get higher rewardsli
-          ul
-        div
-      div
-    div
-  div
-section
+        <div>
+          <h3 class="text-xl font-bold mb-2">Key Mechanics</h3>
+          <ul class="list-disc pl-5 text-gray-300">
+            <li class="mb-2">Holding increases your rank</li>
+            <li class="mb-2">Selling resets your rank to zero</li>
+            <li class="mb-2">Early adopters get higher rewards</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-!-- Footer --
-footer class=py-12 bg-black bg-opacity-90
-  div class=container mx-auto px-4
-    div class=flex flex-col mdflex-row justify-between items-center
-      div class=mb-6 mdmb-0
-        h3 class=text-2xl font-bold mb-4 neon-textPonziXh3
-        p class=text-sm text-gray-400 max-w-mdThis is not financial advice. Everything here is a Ponzi scheme and you knew it. Only play with what you can afford to lose.p
-      div
+<!-- Footer -->
+<footer class="py-12 bg-black bg-opacity-90">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col md:flex-row justify-between items-center">
+      <div class="mb-6 md:mb-0">
+        <h3 class="text-2xl font-bold mb-4 neon-text">PonziX</h3>
+        <p class="text-sm text-gray-400 max-w-md">This is not financial advice. Everything here is a Ponzi scheme and you knew it. Only play with what you can afford to lose.</p>
+      </div>
       
-      div class=mb-6 mdmb-0
-        h4 class=text-lg font-bold mb-3Contract Addressh4
-        p class=text-sm bg-gray-800 p-2 rounded font-mono0xP0NZ1X...69aBcp
-      div
+      <div class="mb-6 md:mb-0">
+        <h4 class="text-lg font-bold mb-3">Contract Address</h4>
+        <p class="text-sm bg-gray-800 p-2 rounded font-mono">0xP0NZ1X...69aBc</p>
+      </div>
       
-      div
-        h4 class=text-lg font-bold mb-3Join Ush4
-        div class=flex gap-4
-          a href=httpsx.componzixrewardss=21 target=_blank class=text-2xl hovertext-blue-400 transition-colorsi class=fab fa-twitteria
-          a href=httpst.me+6jabeJ3Q9rBjZDRh target=_blank class=text-2xl hovertext-purple-400 transition-colorsi class=fab fa-telegramia
-        div
-      div
-    div
+      <div>
+        <h4 class="text-lg font-bold mb-3">Join Us</h4>
+        <div class="flex gap-4">
+          <a href="https://x.com/ponzixrewards?s=21" target="_blank" class="text-2xl hover:text-blue-400 transition-colors"><i class="fab fa-twitter"></i></a>
+          <a href="https://t.me/+6jabeJ3Q9rBjZDRh" target="_blank" class="text-2xl hover:text-purple-400 transition-colors"><i class="fab fa-telegram"></i></a>
+        </div>
+      </div>
+    </div>
     
-    div class=border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-500
-      p© 2025 PonziX. All rights reserved. (Not really, it's a meme coin)p
-    div
-  div
-footer
+    <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-500">
+      <p>© 2025 PonziX. All rights reserved. (Not really, it's a meme coin)</p>
+    </div>
+  </div>
+</footer>
 
-script
-   Matrix background effect
+<script>
+  // Matrix background effect
   function createMatrixEffect() {
     const container = document.getElementById('matrixBg');
-    const chars = 01ポンズィX;
+    const chars = "01ポンズィX";
     
-    for (let i = 0; i  50; i++) {
+    for (let i = 0; i < 50; i++) {
       const code = document.createElement('div');
       code.className = 'matrix-code';
-      code.style.left = Math.random()  100 + 'vw';
-      code.style.animationDuration = (Math.random()  5 + 5) + 's';
-      code.style.animationDelay = (Math.random()  5) + 's';
+      code.style.left = Math.random() * 100 + 'vw';
+      code.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      code.style.animationDelay = (Math.random() * 5) + 's';
       
       let content = '';
-      const length = Math.floor(Math.random()  10) + 5;
-      for (let j = 0; j  length; j++) {
-        content += chars[Math.floor(Math.random()  chars.length)];
+      const length = Math.floor(Math.random() * 10) + 5;
+      for (let j = 0; j < length; j++) {
+        content += chars[Math.floor(Math.random() * chars.length)];
       }
       
       code.textContent = content;
@@ -525,58 +525,58 @@ script
     }
   }
   
-   Price chart
+  // Price chart
   function initPriceChart() {
     const ctx = document.getElementById('priceChart').getContext('2d');
     const labels = [];
     const data = [];
     
-     Generate random data for the chart
-    for (let i = 0; i  24; i++) {
+    // Generate random data for the chart
+    for (let i = 0; i < 24; i++) {
       labels.push(i + 'h');
-      const prev = data.length  0  data[data.length - 1]  0.01;
-      data.push(prev + (Math.random()  0.02 - 0.01));
+      const prev = data.length > 0 ? data[data.length - 1] : 0.01;
+      data.push(prev + (Math.random() * 0.02 - 0.01));
     }
     
     new Chart(ctx, {
-      type 'line',
-      data {
-        labels labels,
-        datasets [{
-          label '$PonziX Price',
-          data data,
-          borderColor '#00f7ff',
-          backgroundColor 'rgba(0, 247, 255, 0.1)',
-          borderWidth 2,
-          tension 0.4,
-          pointRadius 0
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: '$PonziX Price',
+          data: data,
+          borderColor: '#00f7ff',
+          backgroundColor: 'rgba(0, 247, 255, 0.1)',
+          borderWidth: 2,
+          tension: 0.4,
+          pointRadius: 0
         }]
       },
-      options {
-        responsive true,
-        maintainAspectRatio false,
-        plugins {
-          legend {
-            display false
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
           }
         },
-        scales {
-          x {
-            grid {
-              display false,
-              drawBorder false
+        scales: {
+          x: {
+            grid: {
+              display: false,
+              drawBorder: false
             },
-            ticks {
-              color 'rgba(0, 247, 255, 0.5)'
+            ticks: {
+              color: 'rgba(0, 247, 255, 0.5)'
             }
           },
-          y {
-            grid {
-              color 'rgba(0, 247, 255, 0.1)',
-              drawBorder false
+          y: {
+            grid: {
+              color: 'rgba(0, 247, 255, 0.1)',
+              drawBorder: false
             },
-            ticks {
-              color 'rgba(0, 247, 255, 0.5)'
+            ticks: {
+              color: 'rgba(0, 247, 255, 0.5)'
             }
           }
         }
@@ -584,136 +584,136 @@ script
     });
   }
   
-   Tokenomics chart
+  // Tokenomics chart
   function initTokenomicsChart() {
     const ctx = document.getElementById('tokenomicsChart').getContext('2d');
     new Chart(ctx, {
-      type 'doughnut',
-      data {
-        labels ['Top Holders (90%)', 'Buyback Pool (10%)'],
-        datasets [{
-          data [90, 10],
-          backgroundColor [
+      type: 'doughnut',
+      data: {
+        labels: ['Top Holders (90%)', 'Buyback Pool (10%)'],
+        datasets: [{
+          data: [90, 10],
+          backgroundColor: [
             '#00f7ff',
             '#0073e6'
           ],
-          borderColor [
+          borderColor: [
             '#0a0a1a',
             '#0a0a1a'
           ],
-          borderWidth 2
+          borderWidth: 2
         }]
       },
-      options {
-        responsive true,
-        plugins {
-          legend {
-            position 'bottom',
-            labels {
-              color '#00f7ff',
-              font {
-                family 'Orbitron'
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              color: '#00f7ff',
+              font: {
+                family: 'Orbitron'
               }
             }
           }
         },
-        cutout '70%'
+        cutout: '70%'
       }
     });
   }
   
-   Leaderboard data
+  // Leaderboard data
   function populateLeaderboard() {
     const leaderboard = [
-      { rank 1, address '0xP0NZ...1A2b3', earnings '42,069', level 5 },
-      { rank 2, address '0x69aB...Cd4e5', earnings '36,542', level 4 },
-      { rank 3, address '0x420X...Y0l0Z', earnings '28,765', level 4 },
-      { rank 4, address '0x1337...H4x0r', earnings '24,321', level 3 },
-      { rank 5, address '0xBeEf...DeAd', earnings '19,876', level 3 },
-      { rank 6, address '0xC0dE...Ba5e', earnings '15,432', level 2 },
-      { rank 7, address '0xF00d...B4r2', earnings '12,345', level 2 },
-      { rank 8, address '0xDeAd...C0dE', earnings '9,876', level 1 },
-      { rank 9, address '0xBa5e...F00d', earnings '6,789', level 1 },
-      { rank 10, address '0xBeEf...C0dE', earnings '4,321', level 1 }
+      { rank: 1, address: '0xP0NZ...1A2b3', earnings: '42,069', level: 5 },
+      { rank: 2, address: '0x69aB...Cd4e5', earnings: '36,542', level: 4 },
+      { rank: 3, address: '0x420X...Y0l0Z', earnings: '28,765', level: 4 },
+      { rank: 4, address: '0x1337...H4x0r', earnings: '24,321', level: 3 },
+      { rank: 5, address: '0xBeEf...DeAd', earnings: '19,876', level: 3 },
+      { rank: 6, address: '0xC0dE...Ba5e', earnings: '15,432', level: 2 },
+      { rank: 7, address: '0xF00d...B4r2', earnings: '12,345', level: 2 },
+      { rank: 8, address: '0xDeAd...C0dE', earnings: '9,876', level: 1 },
+      { rank: 9, address: '0xBa5e...F00d', earnings: '6,789', level: 1 },
+      { rank: 10, address: '0xBeEf...C0dE', earnings: '4,321', level: 1 }
     ];
     
     const tbody = document.getElementById('leaderboardBody');
     tbody.innerHTML = '';
     
-    leaderboard.forEach(entry = {
+    leaderboard.forEach(entry => {
       const tr = document.createElement('tr');
-      tr.className = 'border-b border-gray-800 hoverbg-gray-800 leaderboard-entry';
+      tr.className = 'border-b border-gray-800 hover:bg-gray-800 leaderboard-entry';
       
-       Stars for level
+      // Stars for level
       let stars = '';
-      for (let i = 0; i  entry.level; i++) {
-        stars += 'i class=fas fa-star rank-stari ';
+      for (let i = 0; i < entry.level; i++) {
+        stars += '<i class="fas fa-star rank-star"></i> ';
       }
       
       tr.innerHTML = `
-        td class=px-6 py-4 font-bold${entry.rank}td
-        td class=px-6 py-4 font-mono${entry.address}td
-        td class=px-6 py-4${entry.earnings} $PonziXtd
-        td class=px-6 py-4${stars}td
+        <td class="px-6 py-4 font-bold">${entry.rank}</td>
+        <td class="px-6 py-4 font-mono">${entry.address}</td>
+        <td class="px-6 py-4">${entry.earnings} $PonziX</td>
+        <td class="px-6 py-4">${stars}</td>
       `;
       
       tbody.appendChild(tr);
     });
   }
   
-   Create confetti effect
+  // Create confetti effect
   function createConfetti() {
     const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
     const container = document.getElementById('jackpotAnimation');
     
-    for (let i = 0; i  150; i++) {
+    for (let i = 0; i < 150; i++) {
       const confetti = document.createElement('div');
       confetti.className = 'confetti';
-      confetti.style.left = Math.random()  100 + 'vw';
+      confetti.style.left = Math.random() * 100 + 'vw';
       confetti.style.top = -10 + 'px';
-      confetti.style.backgroundColor = colors[Math.floor(Math.random()  colors.length)];
-      confetti.style.transform = `rotate(${Math.random()  360}deg)`;
+      confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
       
-      const size = Math.random()  10 + 5;
+      const size = Math.random() * 10 + 5;
       confetti.style.width = size + 'px';
       confetti.style.height = size + 'px';
       
       container.appendChild(confetti);
       
-       Animate
-      setTimeout(() = {
+      // Animate
+      setTimeout(() => {
         confetti.style.opacity = '1';
-        confetti.style.transition = `all ${Math.random()  3 + 2}s ease`;
+        confetti.style.transition = `all ${Math.random() * 3 + 2}s ease`;
         confetti.style.top = '100vh';
-        confetti.style.left = (parseFloat(confetti.style.left) + (Math.random()  200 - 100)) + 'px';
-      }, i  20);
+        confetti.style.left = (parseFloat(confetti.style.left) + (Math.random() * 200 - 100)) + 'px';
+      }, i * 20);
     }
   }
   
-   Create coin rain effect
+  // Create coin rain effect
   function createCoinRain() {
     const container = document.getElementById('jackpotAnimation');
     
     for (let i = 0; i = 50; i++) {
       const coin = document.createElement('div');
       coin.className = 'jackpot-coin';
-      coin.style.left = Math.random()  100 + 'vw';
+      coin.style.left = Math.random() * 100 + 'vw';
       coin.style.top = -30 + 'px';
       
       container.appendChild(coin);
       
-       Animate
-      setTimeout(() = {
+      // Animate
+      setTimeout(() => {
         coin.style.opacity = '1';
-        coin.style.transition = `all ${Math.random()  2 + 1}s ease`;
+        coin.style.transition = `all ${Math.random() * 2 + 1}s ease`;
         coin.style.top = '100vh';
-        coin.style.left = (parseFloat(coin.style.left) + (Math.random()  100 - 50)) + 'px';
-        coin.style.transform = `rotate(${Math.random()  360}deg)`;
-      }, i  100);
+        coin.style.left = (parseFloat(coin.style.left) + (Math.random() * 100 - 50)) + 'px';
+        coin.style.transform = `rotate(${Math.random() * 360}deg)`;
+      }, i * 100);
     }
   }
   
-   Show jackpot animation
+  // Show jackpot animation
   function showJackpot() {
     const jackpot = document.getElementById('jackpotAnimation');
     jackpot.style.opacity = '1';
@@ -722,61 +722,61 @@ script
     createConfetti();
     createCoinRain();
     
-     Close button
+    // Close button
     document.getElementById('closeJackpot').addEventListener('click', function() {
       jackpot.style.opacity = '0';
       jackpot.style.pointerEvents = 'none';
       
-       Clear animations
+      // Clear animations
       const confetti = document.querySelectorAll('.confetti, .jackpot-coin');
-      confetti.forEach(el = el.remove());
+      confetti.forEach(el => el.remove());
     });
   }
   
-   Ponzi Wheel with new prizes
+  // Ponzi Wheel with new prizes
   function initPonziWheel() {
     const wheel = document.getElementById('wheel');
     const prizes = [
       { 
-        text LOTTERYbrREWARD, 
-        class lottery-section
+        text: "LOTTERY<br>REWARD", 
+        class: "lottery-section"
       },
       { 
-        text 100XbrBOOST, 
-        class boost-section
+        text: "100X<br>BOOST", 
+        class: "boost-section"
       },
       { 
-        text KOLERS, 
-        class kolers-section
+        text: "KOLERS", 
+        class: "kolers-section"
       },
       { 
-        text JACKPOTbrREWARD, 
-        class jackpot-section,
-        textColor #000
+        text: "JACKPOT<br>REWARD", 
+        class: "jackpot-section",
+        textColor: "#000"
       },
       { 
-        text 100XbrNITRO, 
-        class nitro-section
+        text: "100X<br>NITRO", 
+        class: "nitro-section"
       },
       { 
-        text LOTTERYbrREWARD, 
-        class lottery-section
+        text: "LOTTERY<br>REWARD", 
+        class: "lottery-section"
       },
       { 
-        text KOLERS, 
-        class kolers-section
+        text: "KOLERS", 
+        class: "kolers-section"
       },
       { 
-        text 100XbrBOOST, 
-        class boost-section
+        text: "100X<br>BOOST", 
+        class: "boost-section"
       }
     ];
     
-     Create wheel sections
-    prizes.forEach((prize, i) = {
+    // Create wheel sections
+    prizes.forEach((prize, i) => {
       const section = document.createElement('div');
       section.className = `wheel-section ${prize.class}`;
-      section.style.transform = `rotate(${i  45}deg) skewY(-45deg)`;
+      section.style.transform = `rotate(${i * 45}deg) skewY(-45deg)`;
       if (prize.textColor) {
         section.style.color = prize.textColor;
       }
@@ -784,91 +784,91 @@ script
       const label = document.createElement('div');
       label.className = 'prize-label';
       label.innerHTML = `
-        span class=prize-text${prize.text}span
+        <span class="prize-text">${prize.text}</span>
       `;
       section.appendChild(label);
       wheel.appendChild(section);
     });
     
-     Spin button functionality
+    // Spin button functionality
     document.getElementById('spinButton').addEventListener('click', function() {
       if (this.disabled) return;
       
       this.disabled = true;
-      const spinDegrees = 1800 + Math.floor(Math.random()  360);  5 full rotations + random
+      const spinDegrees = 1800 + Math.floor(Math.random() * 360); // 5 full rotations + random
       wheel.style.transform = `rotate(${spinDegrees}deg)`;
       
-      setTimeout(() = {
-        const winningIndex = Math.floor((((spinDegrees % 360) - 22.5) + 360) % 360  45);
+      setTimeout(() => {
+        const winningIndex = Math.floor((((spinDegrees % 360) - 22.5) + 360) % 360 / 45);
         const prize = prizes[winningIndex];
         
-        if (prize.text.includes(JACKPOT)) {
+        if (prize.text.includes("JACKPOT")) {
           showJackpot();
         } else {
-           Create a notification for non-jackpot wins
+          // Create a notification for non-jackpot wins
           const notification = document.createElement('div');
           notification.className = 'fixed top-4 right-4 bg-gray-900 text-white px-6 py-4 rounded-lg shadow-lg border border-purple-500 z=50';
           notification.innerHTML = `
-            div class=flex items-center
-              div
-                h4 class=font-boldYou won!h4
-                p${prize.text.replace(brg, ' ')}p
-              div
-            div
+            <div class="flex items-center">
+              <div>
+                <h4 class="font-bold">You won!</h4>
+                <p>${prize.text.replace(/<br>/g, ' ')}</p>
+              </div>
+            </div>
           `;
           document.body.appendChild(notification);
           
-           Remove after 5 seconds
-          setTimeout(() = {
+          // Remove after 5 seconds
+          setTimeout(() => {
             notification.style.opacity = '0';
             notification.style.transition = 'opacity 0.5s';
-            setTimeout(() = notification.remove(), 500);
+            setTimeout(() => notification.remove(), 500);
           }, 5000);
         }
         
-         Reset timer to 25 minutes (1500 seconds)
+        // Reset timer to 25 minutes (1500 seconds)
         let timeLeft = 1500;
         const timer = document.getElementById('spinTimer');
         
-        const countdown = setInterval(() = {
+        const countdown = setInterval(() => {
           timeLeft--;
-          const hours = Math.floor(timeLeft  3600);
-          const minutes = Math.floor((timeLeft % 3600)  60);
+          const hours = Math.floor(timeLeft / 3600);
+          const minutes = Math.floor((timeLeft % 3600) / 60);
           const seconds = timeLeft % 60;
-          timer.textContent = `${hours.toString().padStart(2, '0')}${minutes.toString().padStart(2, '0')}${seconds.toString().padStart(2, '0')}`;
+          timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
           
-          if (timeLeft = 0) {
+          if (timeLeft <= 0) {
             clearInterval(countdown);
             this.disabled = false;
-            timer.textContent = Ready to spin!;
+            timer.textContent = "Ready to spin!";
           }
         }, 1000);
       }, 5000);
     });
     
-     Also make the center button spin the wheel
+    // Also make the center button spin the wheel
     document.querySelector('.wheel-center').addEventListener('click', function() {
       document.getElementById('spinButton').click();
     });
   }
   
-   Wallet connection
+  // Wallet connection
   function initWalletConnection() {
     document.getElementById('connectWallet').addEventListener('click', function() {
-       Simulate wallet connection
-      this.innerHTML = 'i class=fas fa-check-circle mr-2i Connected';
+      // Simulate wallet connection
+      this.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Connected';
       this.classList.remove('neon-button');
-      this.classList.add('bg-green-600', 'hoverbg-green-700');
+      this.classList.add('bg-green-600', 'hover:bg-green-700');
       
-       Update balance display
+      // Update balance display
       document.getElementById('userBalance').textContent = '420.69';
       
-       In a real app, you would use WalletConnect or similar here
+      // In a real app, you would use WalletConnect or similar here
       console.log('Wallet connection initiated');
     });
   }
   
-   Initialize everything when the page loads
+  // Initialize everything when the page loads
   document.addEventListener('DOMContentLoaded', function() {
     createMatrixEffect();
     initPriceChart();
@@ -877,23 +877,23 @@ script
     initPonziWheel();
     initWalletConnection();
     
-     Update spin timer initially
+    // Update spin timer initially
     const timer = document.getElementById('spinTimer');
-    let timeLeft = Math.floor(Math.random()  1500);  Random time up to 25 minutes
+    let timeLeft = Math.floor(Math.random() * 1500); // Random time up to 25 minutes
     
-    const countdown = setInterval(() = {
+    const countdown = setInterval(() => {
       timeLeft--;
-      const hours = Math.floor(timeLeft  3600);
-      const minutes = Math.floor((timeLeft % 3600)  60);
+      const hours = Math.floor(timeLeft / 3600);
+      const minutes = Math.floor((timeLeft % 3600) / 60);
       const seconds = timeLeft % 60;
-      timer.textContent = `${hours.toString().padStart(2, '0')}${minutes.toString().padStart(2, '0')}${seconds.toString().padStart(2, '0')}`;
+      timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
       
-      if (timeLeft = 0) {
+      if (timeLeft <= 0) {
         clearInterval(countdown);
-        timer.textContent = Ready to spin!;
+        timer.textContent = "Ready to spin!";
       }
     }, 1000);
   });
-script
-body
-html
+</script>
+</body>
+</html>
